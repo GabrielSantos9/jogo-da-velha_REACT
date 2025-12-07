@@ -5,7 +5,14 @@
 //A segunda linha retorna um botão. A palavra-chave 'return' do JavaScript significa que qualquer coisa que venha após ela é retornada como um valor para quem chamar esta função. '<button>' é um elemento JSX. Um elemento JSX é uma combinação de código JavaScript e tags HTML a qual descreve o que você quer exibir. 'className="square"' é uma propriedade do botão ou prop que diz à CSS como estilizar o botão. 'X' é o texto a ser exibido dentro do botão e </button> fecha o elemento JSX para indicar que qualquer conteúdo após isso não deve ser colocado dentro do botão.
 
 function Square({ value }) {
-  return <button className="square">{value}</button>;
+  //1
+  function handleClick() {
+    console.log('clicou!');
+  }
+
+  return (
+    <button className="square" onClick={handleClick}>{value}</button>
+  )
 }
 
 //ANTES DE REFAZER O CÓDIGO, ELE ERA ASSIM:
@@ -29,11 +36,9 @@ function Square({ value }) {
 //       </div>
 //     </>
 //   );
-// }
+// abrir na seta '>'}
 
-//1. Ah não! Você perdeu os quadrados numerados que tinha antes. Agora cada quadrado diz “1”. Para consertar isso, você usará props para passar o valor que cada quadrado deve ter a partir de seu componente pai (Board) para seus filhos (Square). Atualize o componente Square para ler a prop value que você irá passar a partir de Board:
-
-//DEPOIS DE REFAZER O CÓDIGO, ELE FICOU ASSIM:
+/*DEPOIS DE REFAZER O CÓDIGO, ELE FICOU ASSIM:*/
 export default function Board() {
   return (
     <>

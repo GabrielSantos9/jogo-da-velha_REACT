@@ -1,0 +1,5 @@
+1.
+Fazendo um componente interativo 
+Vamos preencher o componente Square com um X quando você o clicar. Declare uma função chamada handleClick dentro de Square. Então, adicione onClick às props do elemento JSX button retornado de Square:
+
+2.
