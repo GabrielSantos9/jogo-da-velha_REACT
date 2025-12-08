@@ -2,4 +2,19 @@
 Fazendo um componente interativo 
 Vamos preencher o componente Square com um X quando você o clicar. Declare uma função chamada handleClick dentro de Square. Então, adicione onClick às props do elemento JSX button retornado de Square:
 
+  // //1
+  // function handleClick() {
+  //   console.log('clicou!');
+  // }
+
+
 2.
+Como um próximo passo, você quer que o componente Square “lembre-se” de que ele foi clicado, e preenchê-lo com uma marca de “X”. Para “lembrar-se” de coisas, componentes usam state.
+
+O React fornece uma função especial chamada useState a qual você pode chamar a partir de seu componente para permitir que ele “lembre-se” de coisas. Vamos armazenar o valor atual do Square em state, e mudá-lo quando o Square for clicado.
+
+Importe useState no topo do arquivo. Remova a prop value do componente Square. Em vez disso, adicione uma nova linha no começo de Square que chame useState. Faça com que ela retorne uma variável de state chamada value:
+
+value salva o valor e setValue é a função que pode ser usada para mudar esse valor. O null passado para useState é usado como o valor inicial desta variável de state, então aqui value começa sendo igual a null.
+
+Já que o componente Square não mais aceita props, você irá remover a prop value de todos os nove componentes Square criados pelo componente Board:
