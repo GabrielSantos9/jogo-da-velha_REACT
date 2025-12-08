@@ -81,6 +81,7 @@ ul {
 
 .status {
   margin-bottom: 10px;
+  color: white;
 }
 .game {
   display: flex;

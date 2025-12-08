@@ -18,3 +18,55 @@ Importe useState no topo do arquivo. Remova a prop value do componente Square. E
 value salva o valor e setValue é a função que pode ser usada para mudar esse valor. O null passado para useState é usado como o valor inicial desta variável de state, então aqui value começa sendo igual a null.
 
 Já que o componente Square não mais aceita props, você irá remover a prop value de todos os nove componentes Square criados pelo componente Board:
+
+Array(9).fill(null) cria um array com nove elementos e define cada um deles como null. A chamada useState() ao redor dele declara uma variável de state squares a qual é inicialmente definida àquele array. Cada valor no array corresponde ao valor de um quadrado. Quando você preencher o tabuleiro mais tarde, o array squares se parecerá com isto:
+
+A função handleClick cria uma cópia do array squares (nextSquares) com o método de Array JavaScript slice(). Então, handleClick atualiza o array nextSquares para adicionar X ao primeiro (índice [0]) quadrado.
+
+Chamar a função setSquares permite que o React saiba que o state do componente mudou. Isso irá acionar uma rerrenderização dos componentes que usa o state squares (Board) bem como seus componentes filhos (os componentes Square que fazem parte do tabuleiro).
+
+Quando você estava passando onSquareClick={handleClick}, você passava a função handleClick como uma prop. Você não a chamava! Mas agora você está chamando aquela função imediatamente—perceba os parênteses em handleClick(0)—e é por isso que ela é executada muito cedo. Você não quer chamar handleClick até que o usuário clique!
+
+Você poderia consertar isso criando uma função como handleFirstSquareClick que chama handleClick(0), um função como handleSecondSquareClick que chama handleClick(1), e assim por diante. Você passaria (ao invés de chamar) essas funções como props assim: onSquareClick={handleFirstSquareClick}. Isso resolveria o loop infinito.
+
+Entretanto, definir nove funções diferentes e dar um nome a cada uma delas é muito verboso. Em vez disso, vamos fazer isto:
+
+export default function Board() {
+  // ...
+  return (
+    <>
+      <div className="board-row">
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+        // ...
+  );
+}
+Perceba a nova sintaxe () =>. Aqui, () => handleClick(0) é uma arrow function, a qual é uma maneira mais curta de definir funções. Quando o quadrado é clicado, o código depois da “flecha” => irá executar, chamando handleClick(0).
+
+Agora você precisa atualizar os outros oito quadrados para chamarem handleClick através das arrow functions que você passa. Certifique-se de que cada argumento para cada chamada de handleClick corresponda ao índice do quadrado correto:
+
+export default function Board() {
+  // ...
+  return (
+    <>
+      <div className="board-row">
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+        /// ...
+
+Armazenando um histórico de movimentos 
+Se você tivesse mutado o array squares, implementar viagem no tempo seria muito difícil.
+
+Entretanto, você usou slice() para criar uma nova cópia do array de squares depois de cada movimento, e o tratou como imutável. Isso permitirá que você armazene cada versão passada do array squares e navegue entre os turnos que já aconteceram.
+
+Você armazenará os arrays squares antigos em outro array chamado history, o qual você armazenará como uma nova variável de state. O array de history representa todos os states do tabuleiro, do primeiro ao último movimento, e possui uma forma parecida com isto:
+
+[
+  // Antes do primeiro movimento
+  [null, null, null, null, null, null, null, null, null],
+  // Depois do primeiro movimento
+  [null, null, null, null, 'X', null, null, null, null],
+  // Depois do segundo movimento
+  [null, null, null, null, 'X', null, null, null, 'O'],
+  // ...
+]
